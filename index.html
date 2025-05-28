@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple To-Do App</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="container mx-auto px-4 py-8 max-w-md">
+    <h1 class="text-3xl font-bold text-center mb-8 text-blue-600">Simple To-Do App</h1>
+    
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <form id="todo-form" class="flex mb-6">
+        <input 
+          type="text" 
+          id="todo-input" 
+          class="flex-grow px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+          placeholder="Add a new task..." 
+          aria-label="New task"
+          required
+        >
+        <button 
+          type="submit" 
+          class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-label="Add task"
+        >
+          ➕
+        </button>
+      </form>
+      
+      <div id="empty-state" class="text-center py-6 text-gray-500">
+        <p>No tasks yet. Add a task to get started!</p>
+      </div>
+      
+      <ul id="todo-list" class="space-y-2"></ul>
+    </div>
+  </div>
+  
+  <script type="module" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+/* Custom styles beyond Tailwind */
+
+.done {
+  text-decoration: line-through;
+  color: #9ca3af; /* gray-400 */
+}
+
+/* Focus styles for accessibility */
+:focus {
+  outline: none;
+}
+
+/* Custom animation for task completion */
+.task-complete-animation {
+  animation: fadeColor 0.5s ease-in-out;
+}
+
+@keyframes fadeColor {
+  0% { background-color: rgba(209, 250, 229, 0); } /* transparent green-100 */
+  50% { background-color: rgba(209, 250, 229, 1); } /* green-100 */
+  100% { background-color: rgba(209, 250, 229, 0); } /* back to transparent */
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+  .task-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
