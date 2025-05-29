@@ -1,50 +1,63 @@
-# 今日の積み上げ管理アプリ
+# 今日の積み上げ📚管理アプリ
 
 ブラウザ上で動作するシンプルな積み上げ管理アプリです。バックエンドサーバー不要で、完全にクライアントサイドで動作します。
 
-## Features
+## 機能
 
-- Add new tasks
-- Mark tasks as complete/incomplete
-- Delete tasks
-- Automatic saving to localStorage
-- Responsive design (works on mobile devices)
-- Accessible UI with keyboard navigation and ARIA attributes
+- タスクの追加（日付指定可能）
+- タスクの完了/未完了の切り替え
+- タスクの削除
+- 同じ日付での重複タスク防止
+- localStorage への自動保存
+- レスポンシブデザイン（モバイル対応）
+- キーボードナビゲーションとARIA属性によるアクセシブルなUI
 
-## Tech Stack
+## 継続記録機能
+
+- 同じタスクを連続した日付で完了すると継続記録としてカウント
+- 継続日数に応じた視覚的な強調表示
+- 継続日数が長いほど目立つデザインでモチベーション向上
+
+## 技術スタック
 
 - HTML5
-- CSS3 (with Tailwind CSS)
-- JavaScript (ES6)
-- localStorage for data persistence
+- CSS3（Tailwind CSS使用）
+- JavaScript（ES6）
+- データ永続化にlocalStorage使用
 
-## Setup Instructions
+## セットアップ手順
 
-1. Clone this repository:
+1. リポジトリをクローン：
    ```
-   git clone <repository-url>
+   git clone https://github.com/yuta-884/todo-app.git
    cd todo-app
    ```
 
-2. Open the application:
-   - Option 1: Simply open `index.html` in your browser
-   - Option 2: Use a local development server
+2. アプリケーションを開く：
+   - 方法1：`index.html`をブラウザで直接開く
+   - 方法2：ローカル開発サーバーを使用
 
-   If you have Node.js installed, you can use a simple server:
+   Node.jsがインストールされている場合は、以下のコマンドでシンプルなサーバーを起動できます：
    ```
    npx serve
    ```
 
-## How It Works
+## 仕組み
 
-- All tasks are stored in your browser's localStorage
-- No data is sent to any server
-- Tasks persist between browser sessions
-- No login required - it's a personal to-do list on your device
+- すべてのタスクはブラウザのlocalStorageに保存
+- サーバーにデータを送信しない
+- ブラウザセッション間でタスクが保持される
+- ログイン不要 - デバイス上の個人的なTODOリスト
 
-## Development Notes
+## モバイル表示の特徴
 
-- The app uses ES6 module pattern for clean code organization
-- Tailwind CSS is loaded via CDN for styling
-- Custom animations enhance the user experience
-- Fully responsive design works on all screen sizes (minimum width: 320px)
+- タスク一覧と継続記録を切り替え表示
+- 継続記録の件数をバッジで表示
+- 画面サイズに応じた最適なレイアウト
+
+## 開発メモ
+
+- ES6モジュールパターンでコードを整理
+- スタイリングにCDN経由のTailwind CSSを使用
+- カスタムアニメーションでユーザー体験を向上
+- すべての画面サイズで動作する完全レスポンシブデザイン（最小幅：320px）
