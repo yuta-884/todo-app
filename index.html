@@ -1,40 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple To-Do App</title>
+  <title>今日の積み上げ管理アプリ</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen">
-  <div class="container mx-auto px-4 py-8 max-w-md">
-    <h1 class="text-3xl font-bold text-center mb-8 text-blue-600">Simple To-Do App</h1>
+<body class="min-h-screen">
+  <div class="app-container px-4 py-8">
+    <h1 class="text-4xl font-bold text-center mb-10 app-title">
+      <span class="md:inline block">今日の積み上げ📚</span>
+      <span class="md:inline block md:ml-1">管理アプリ</span>
+    </h1>
     
-    <div class="bg-white rounded-lg shadow-md p-6">
-      <form id="todo-form" class="flex mb-6">
-        <input 
-          type="text" 
-          id="todo-input" 
-          class="flex-grow px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-          placeholder="Add a new task..." 
-          aria-label="New task"
-          required
-        >
-        <button 
-          type="submit" 
-          class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          aria-label="Add task"
-        >
-          ➕
-        </button>
-      </form>
-      
-      <div id="empty-state" class="text-center py-6 text-gray-500">
-        <p>No tasks yet. Add a task to get started!</p>
+    <!-- モバイル用継続記録表示切り替えボタン -->
+    <div class="md:hidden sticky top-0 z-10 bg-gray-100 py-2 px-4 flex justify-between items-center">
+      <button id="toggle-view-btn" class="text-indigo-600 font-medium flex items-center">
+        <span id="current-view-text">タスク一覧</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+        </svg>
+      </button>
+      <span class="text-sm text-gray-500" id="streak-count-badge"></span>
+    </div>
+    
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- メインのタスク追加・表示エリア -->
+      <div id="tasks-container" class="card p-6 flex-1">
+        <form id="todo-form" class="mb-6">
+          <div class="flex mb-2">
+            <input 
+              type="text" 
+              id="todo-input" 
+              class="flex-grow px-4 py-3 border border-gray-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm" 
+              placeholder="新しいタスクを入力..." 
+              aria-label="新しいタスク"
+              required
+            >
+            <button 
+              type="submit" 
+              class="btn-primary px-4 py-3 rounded-r-lg flex items-center justify-center"
+              aria-label="タスクを追加"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+          </div>
+          
+          <div class="flex justify-end">
+            <button 
+              id="toggle-date-btn"
+              class="text-sm text-indigo-600 hover:text-indigo-800 focus:outline-none transition-colors duration-200 flex items-center"
+              type="button"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              日付を指定する
+            </button>
+          </div>
+          
+          <div id="date-selector" class="mt-3 p-3 border border-gray-200 rounded-lg bg-gray-50 hidden">
+            <div class="relative">
+              <label for="custom-date" class="block text-sm font-medium text-gray-700 mb-1">日付を選択：</label>
+              <div class="relative date-input-container">
+                <input 
+                  type="date" 
+                  id="custom-date" 
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  max="2025-12-31"
+                >
+              </div>
+            </div>
+          </div>
+        </form>
+        
+        <div id="empty-state" class="text-center py-10 text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+          <p class="text-lg">タスクがまだありません。新しいタスクを追加してみましょう！</p>
+        </div>
+        
+        <ul id="todo-list" class="space-y-3"></ul>
       </div>
       
-      <ul id="todo-list" class="space-y-2"></ul>
+      <!-- 継続記録表示エリア -->
+      <div id="streaks-container" class="card p-6 w-full md:w-80 self-start sticky top-4 md:block">
+        <h2 class="text-xl font-semibold mb-4 text-indigo-700 border-b border-indigo-100 pb-2 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          継続記録
+        </h2>
+        <div id="streak-container" class="space-y-3 max-h-[70vh] overflow-y-auto pr-1">
+          <div class="text-center py-6 text-gray-500" id="empty-streak">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            <p>同じタスクを複数日追加すると、継続日数が表示されます</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   

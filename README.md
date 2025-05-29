@@ -1,6 +1,6 @@
-# Simple To-Do App
+# 今日の積み上げ管理アプリ
 
-A lightweight, single-page To-Do application that works entirely in the browser with no backend requirements.
+ブラウザ上で動作するシンプルな積み上げ管理アプリです。バックエンドサーバー不要で、完全にクライアントサイドで動作します。
 
 ## Features
 
